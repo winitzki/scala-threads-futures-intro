@@ -9,12 +9,6 @@ import scala.util.{Success, Try}
 
 class FutureSpec extends FlatSpec with Matchers {
 
-  // A single sequential computation takes 1 second.
-  def doComputation(n: Int): Int = {
-    Thread.sleep(1000)
-    n * 2
-  }
-
   behavior of "Future for parallel computations"
 
   it should "run a computation in the future" in {

@@ -3,6 +3,7 @@ package example
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
+import example.RunThis._
 import org.scalatest.{FlatSpec, Matchers}
 
 class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
@@ -10,19 +11,6 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
   behavior of "ThreadPoolExecutor"
 
   val counter = new AtomicInteger
-
-  def makeRunnable(n: Int): Runnable = { () ⇒
-    Thread.sleep(1000)
-    val r = counter.addAndGet(n)
-    println(s"Counter is now $r")
-  }
-
-  def makeRunnableCrash(n: Int): Runnable = { () ⇒
-    Thread.sleep(1000)
-    val r = counter.addAndGet(n)
-    throw new RuntimeException("error, please ignore")
-    println(s"Counter is now $r")
-  }
 
   it should "run several tasks in parallel" in {
     val tpe = Executors.newFixedThreadPool(3)

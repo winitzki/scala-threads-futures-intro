@@ -7,4 +7,13 @@ package object example {
     val result = x
     ((System.nanoTime() - initial )  / 1000000000.0, result)
   }
+
+  // A single sequential computation takes 1 second.
+  def doComputation(n: Int): Int = {
+    Thread.sleep(1000)
+    val answer = n * 2
+    println(s"Answer is $answer")
+    answer
+  }
+
 }
