@@ -1,16 +1,13 @@
 package example
 
 import java.util.concurrent.Executors
-import java.util.concurrent.atomic.AtomicInteger
 
-import example.RunThis._
+import example.Counter._
 import org.scalatest.{FlatSpec, Matchers}
 
 class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
 
   behavior of "ThreadPoolExecutor"
-
-  val counter = new AtomicInteger
 
   it should "run several tasks in parallel" in {
     val tpe = Executors.newFixedThreadPool(3)
@@ -21,10 +18,8 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
 
     tasks.foreach(task ⇒ tpe.submit(task))
 
-    Thread.sleep(2500) // hmmm.
+    Thread.sleep(2500) // Let's wait a bit.
     counter.get shouldEqual 15
-
-    tpe.shutdown()
   }
 
   it should "be able to schedule tasks after exceptions" in {
@@ -36,10 +31,8 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
 
     tasks.foreach(task ⇒ tpe.submit(task))
 
-    Thread.sleep(3500) // hmmm.
+    Thread.sleep(3500) // Let's wait a bit more.
     counter.get shouldEqual 28
-
-    tpe.shutdown()
   }
 
 }

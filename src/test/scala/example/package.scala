@@ -1,3 +1,5 @@
+import scala.concurrent.{ExecutionContext, Future}
+
 /**
   * Created by sergei.winitzki on 9/22/17.
   */
@@ -9,7 +11,7 @@ package object example {
   }
 
   // A single sequential computation takes 1 second.
-  def doComputation(n: Int): Int = {
+  def doComputation(n: Int)(implicit executionContext: ExecutionContext): Future[Int] = Future {
     Thread.sleep(1000)
     val answer = n * 2
     println(s"Answer is $answer")

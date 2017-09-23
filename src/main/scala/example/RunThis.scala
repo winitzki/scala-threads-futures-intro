@@ -2,8 +2,9 @@ package example
 
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
+import Counter._
 
-object RunThis extends App {
+object Counter {
   val counter = new AtomicInteger
 
   def makeRunnable(n: Int): Runnable = { () ⇒
@@ -19,6 +20,10 @@ object RunThis extends App {
     throw new RuntimeException("error, please ignore")
     println("This message should never be printed")
   }
+
+}
+
+object RunThis extends App {
 
   val tpe = Executors.newFixedThreadPool(3)
 
