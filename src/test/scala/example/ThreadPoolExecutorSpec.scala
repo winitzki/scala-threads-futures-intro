@@ -11,12 +11,6 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
 
   val counter = new AtomicInteger
 
-  def elapsed[T](x: ⇒ T): (Long, T) ={
-    val initial = System.nanoTime()
-    val result = x
-    (System.nanoTime() - initial, result)
-  }
-
   def makeRunnable(n: Int): Runnable = { () ⇒
     Thread.sleep(1000)
     val r = counter.addAndGet(n)
@@ -26,7 +20,7 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
   def makeRunnableCrash(n: Int): Runnable = { () ⇒
     Thread.sleep(1000)
     val r = counter.addAndGet(n)
-    null.asInstanceOf[String].length()
+    throw new RuntimeException("error, please ignore")
     println(s"Counter is now $r")
   }
 
@@ -39,14 +33,14 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
 
     tasks.foreach(task ⇒ tpe.submit(task))
 
-    Thread.sleep(4000) // hmmm.
+    Thread.sleep(2500) // hmmm.
     counter.get shouldEqual 15
 
     tpe.shutdown()
   }
 
   it should "be able to schedule tasks after exceptions" in {
-    val tpe = Executors.newSingleThreadExecutor()
+    val tpe = Executors.newFixedThreadPool(3)
 
     counter.set(0)
 
@@ -54,7 +48,7 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
 
     tasks.foreach(task ⇒ tpe.submit(task))
 
-    Thread.sleep(4000) // hmmm.
+    Thread.sleep(3500) // hmmm.
     counter.get shouldEqual 28
 
     tpe.shutdown()
