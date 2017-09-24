@@ -5,9 +5,12 @@ import java.util.concurrent.Executors
 import example.Counter._
 import org.scalatest.{FlatSpec, Matchers}
 
+
 class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
 
+
   behavior of "ThreadPoolExecutor"
+
 
   it should "run several tasks in parallel" in {
     val tpe = Executors.newFixedThreadPool(3)
@@ -21,6 +24,8 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
     Thread.sleep(2500) // Let's wait a bit.
     counter.get shouldEqual 15
   }
+
+
 
 
 

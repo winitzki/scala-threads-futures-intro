@@ -7,7 +7,11 @@ import scala.util.{Failure, Try}
 
 class ThreadSpec extends FlatSpec with Matchers {
 
+
   behavior of "Thread"
+
+
+
 
   it should "start running when calling start()" in {
 
@@ -20,6 +24,7 @@ class ThreadSpec extends FlatSpec with Matchers {
     Thread.sleep(1500)
     counter.get shouldEqual 1
   }
+
 
 
 
