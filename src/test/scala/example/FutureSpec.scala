@@ -34,6 +34,19 @@ class FutureSpec extends FlatSpec with Matchers {
     fValue shouldEqual 20
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
   it should "run several computations in parallel" in {
     val results: Seq[Future[Int]] = Seq(10, 20, 30, 40).map { n ⇒ doComputation(n) }
     Thread.sleep(1500)

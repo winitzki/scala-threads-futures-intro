@@ -24,18 +24,14 @@ class FutureChainSpec extends FlatSpec with Matchers {
         }
       }
     }
-
-    val elapsedTime = elapsed {
+    val (elapsedTime, _) = elapsed {
       // The `result` is still in the future, need to wait for it.
       Await.result(result, Duration.Inf) shouldEqual 300
-    }._1
-
+    }
     elapsedTime shouldEqual 4.0 +- 0.1
   }
 
   it should "do computations using a for-yield block" in {
-    // Each new future is created after the previous one is completed.
-    // The entire computation takes about 4 seconds.
     val result: Future[Int] = for {
       a <- doComputation(10) // First this will be done.
       b <- doComputation(a) // Then this.
@@ -44,14 +40,19 @@ class FutureChainSpec extends FlatSpec with Matchers {
     } yield {
       a + b + c + d
     }
-
-    val elapsedTime = elapsed {
-      // The `result` is still in the future, need to wait for it.
+    val (elapsedTime, _) = elapsed {
       Await.result(result, Duration.Inf) shouldEqual 300
-    }._1
-
+    }
     elapsedTime shouldEqual 4.0 +- 0.1
   }
+
+
+
+
+
+
+
+
 
   it should "perform parallel computations and wait for all to finish" in {
     // This starts all the Future values in parallel.
@@ -61,12 +62,19 @@ class FutureChainSpec extends FlatSpec with Matchers {
 
     val sum: Future[Int] = result2.map((s: Seq[Int]) ⇒ s.sum)
 
-    val elapsedTime = elapsed {
+    val (elapsedTime, _) = elapsed {
       Await.result(sum, Duration.Inf) shouldEqual 200
-    }._1
-
+    }
     elapsedTime shouldEqual 1.0 +- 0.1
   }
+
+
+
+
+
+
+
+
 
   it should "use for-yield block to perform parallel computations in the future" in {
     // All futures are created up front and started in parallel.
@@ -81,12 +89,10 @@ class FutureChainSpec extends FlatSpec with Matchers {
     } yield {
       a + b + c + d
     }
-
-    val elapsedTime = elapsed {
+    val (elapsedTime, _) = elapsed {
       // The `result` is still in the future, need to wait for it.
       Await.result(futureSum, Duration.Inf) shouldEqual 200
-    }._1
-
+    }
     elapsedTime shouldEqual 1.0 +- 0.1
   }
 

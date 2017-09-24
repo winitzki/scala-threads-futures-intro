@@ -12,19 +12,17 @@ class ThreadSpec extends FlatSpec with Matchers {
   it should "start running when calling start()" in {
 
     counter.set(0)
-
     val t = new Thread(makeRunnable(1))
-
     Thread.sleep(1500)
-
     counter.get shouldEqual 0
 
     t.start()
-
     Thread.sleep(1500)
-
     counter.get shouldEqual 1
   }
+
+
+
 
   it should "exhaust memory when creating too many threads" in {
     val Some((result, failedTryNewThread)) = (1 to 10000).map { i ⇒
@@ -42,6 +40,8 @@ class ThreadSpec extends FlatSpec with Matchers {
       case Failure(throwable) ⇒ throwable should have message "unable to create new native thread"
       case _ ⇒ throw new Exception("Test failed!")
     }
+
+    failedTryNewThread.get
   }
 
 }

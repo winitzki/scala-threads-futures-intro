@@ -22,6 +22,10 @@ class ThreadPoolExecutorSpec extends FlatSpec with Matchers {
     counter.get shouldEqual 15
   }
 
+
+
+
+
   it should "be able to schedule tasks after exceptions" in {
     val tpe = Executors.newFixedThreadPool(3)
 
